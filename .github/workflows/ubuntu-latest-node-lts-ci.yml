@@ -3,9 +3,9 @@ name: Ubuntu Latest with Node LTS CI
 on:
   workflow_call:
     secrets:
-      CODECLIMATE_TEST_REPORTER_ID:
-        required: true
       COVERALLS_REPO_TOKEN:
+        required: true
+      CODECLIMATE_TEST_REPORTER_ID:
         required: true
       NPM_ACCESS_TOKEN:
         required: false
