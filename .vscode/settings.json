@@ -1,0 +1,9 @@
+{
+  "cSpell.enabledLanguageIds": [
+    "markdown",
+    "plaintext",
+    "yaml"
+  ],
+  "files.autoSave": "onFocusChange",
+  "git.confirmSync": false,
+}
