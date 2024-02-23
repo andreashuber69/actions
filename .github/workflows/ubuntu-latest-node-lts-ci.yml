@@ -29,15 +29,15 @@ jobs:
     - name: Build
       run: npm run ci
     - name: Upload coverage
-      if: hashFiles('./coverage/') != ''
       env:
         COVERALLS_REPO_TOKEN: ${{secrets.COVERALLS_REPO_TOKEN}}
+      if: hashFiles('./coverage/') != ''
       run: |
         ./cc-test-reporter format-coverage --input-type lcov ./coverage/lcov.info
         ./cc-test-reporter upload-coverage --id ${{secrets.CODECLIMATE_TEST_REPORTER_ID}}
         npx coveralls <./coverage/lcov.info
     - name: Publish to npmjs.org
-      if: (env.NODE_AUTH_TOKEN != '') && (github.ref == 'refs/heads/master')
       env:
         NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
+      if: (env.NODE_AUTH_TOKEN != '') && (github.ref == 'refs/heads/master')
       run: npm publish
