@@ -4,9 +4,9 @@ on:
   workflow_call:
     secrets:
       COVERALLS_REPO_TOKEN:
-        required: true
+        required: false
       CODECLIMATE_TEST_REPORTER_ID:
-        required: true
+        required: false
       NPM_ACCESS_TOKEN:
         required: false
 
