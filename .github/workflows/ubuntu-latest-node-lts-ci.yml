@@ -45,3 +45,8 @@ jobs:
         NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
       if: (env.NODE_AUTH_TOKEN != '') && (github.ref == 'refs/heads/master')
       run: npm publish
+    - name: Upload to GitHub Pages
+      if: (hashFiles('./github_pages/') != '')
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./github_pages
