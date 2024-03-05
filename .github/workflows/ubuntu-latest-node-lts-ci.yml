@@ -12,6 +12,12 @@ jobs:
   ubuntu-latest-node-lts-ci:
     name: Run continuous integration on Ubuntu Latest with Node LTS
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{steps.deployment.outputs.page_url}}
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -49,18 +55,7 @@ jobs:
       uses: actions/upload-pages-artifact@v3
       with:
         path: ./github_pages
-  deploy:
-    name: Deploy to GitHub Pages
-    if: (github.ref == 'refs/heads/master')
-    needs: ubuntu-latest-node-lts-ci
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{steps.deployment.outputs.page_url}}
-    steps:
     - name: Deploy to GitHub Pages
       id: deployment
+      if: (hashFiles('./github_pages/') != '') && (github.ref == 'refs/heads/master')
       uses: actions/deploy-pages@v4
