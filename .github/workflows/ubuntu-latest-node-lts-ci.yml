@@ -45,7 +45,7 @@ jobs:
       if: (env.NODE_AUTH_TOKEN != '') && (github.ref == 'refs/heads/master')
       run: npm publish
     - name: Upload to GitHub Pages
-      if: (hashFiles('./github_pages/') != '')
+      if: (hashFiles('./github_pages/') != '') && (github.ref == 'refs/heads/master')
       uses: actions/upload-pages-artifact@v3
       with:
         path: ./github_pages
@@ -61,5 +61,6 @@ jobs:
       url: ${{steps.deployment.outputs.page_url}}
     steps:
     - name: Deploy to GitHub Pages
+      if: (github.ref == 'refs/heads/master')
       id: deployment
       uses: actions/deploy-pages@v4
