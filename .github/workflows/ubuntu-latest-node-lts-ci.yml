@@ -51,6 +51,7 @@ jobs:
         path: ./github_pages
   deploy:
     name: Deploy to GitHub Pages
+    if: (github.ref == 'refs/heads/master')
     needs: ubuntu-latest-node-lts-ci
     runs-on: ubuntu-latest
     permissions:
@@ -61,6 +62,5 @@ jobs:
       url: ${{steps.deployment.outputs.page_url}}
     steps:
     - name: Deploy to GitHub Pages
-      if: (github.ref == 'refs/heads/master')
       id: deployment
       uses: actions/deploy-pages@v4
