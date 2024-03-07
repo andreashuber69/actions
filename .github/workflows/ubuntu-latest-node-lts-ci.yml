@@ -12,9 +12,6 @@ jobs:
   ubuntu-latest-node-lts-ci:
     name: Run continuous integration on Ubuntu Latest with Node LTS
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
