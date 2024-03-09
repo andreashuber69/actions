@@ -1,3 +1,5 @@
+# For this workflow to start, "Settins" -> "Actions" -> "General" -> "Actions permissions" must be set accordingly and
+# "Workflow permissions" must be set to "Read and write permissions".
 # Sets up an LTS Node.js environment on the latest version of Ubuntu. Then runs `npm ci` followed by `npm run ci`. If
 # available, code coverage data in ./coverage/lcov.info is then uploaded to https://coveralls.io/ and
 # https://codeclimate.com/ if the associated GitHub repository secrets `COVERALLS_REPO_TOKEN` and
