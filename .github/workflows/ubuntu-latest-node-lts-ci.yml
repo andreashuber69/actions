@@ -1,16 +1,16 @@
-# For this workflow to start, "Settins" -> "Actions" -> "General" -> "Actions permissions" must be set accordingly and
-# "Workflow permissions" must be set to "Read and write permissions".
+# For this workflow to start, in the repository on https://github.com "Settins" -> "Actions" -> "General" ->
+# "Actions permissions" must be set accordingly and "Workflow permissions" must be set to "Read and write permissions".
 # Sets up an LTS Node.js environment on the latest version of Ubuntu. Then runs `npm ci` followed by `npm run ci`. If
 # available, code coverage data in ./coverage/lcov.info is then uploaded to https://coveralls.io/ and
 # https://codeclimate.com/ if the associated GitHub repository secrets `COVERALLS_REPO_TOKEN` and
 # `CODECLIMATE_TEST_REPORTER_ID` are set. Moreover, if the push happened on the `master` branch, the following
 # additional steps are taken:
 # - If the secret `NPM_ACCESS_TOKEN` is set, the package is also published with `npm publish`.
-# - If the folder ./github_pages exists, the contents is deployed to GitHub pages. For this to work, in the repository
-#   on https://github.com "Settings" -> "Pages" -> "Build and Deployment" -> "Source" must be set to "GitHub Actions"
-#   (currently located on e.g. https://github.com/andreashuber69/node-boilerplate/settings/pages). Also under "Settings"
-#   -> "Environments" there must be an environment called "github-pages" where  "Deployment branches and tags" allows
-#   for deployment from the "master" branch.
+# - If the folder ./github_pages exists, the contents is deployed to GitHub pages. For this to work, "Settings" ->
+#   "Pages" -> "Build and Deployment" -> "Source" must be set to "GitHub Actions" (currently located on e.g.
+#   https://github.com/andreashuber69/node-boilerplate/settings/pages). Also under "Settings" -> "Environments" there
+#   must be an environment called "github-pages" where  "Deployment branches and tags" allows for deployment from the
+#   "master" branch.
 
 on:
   workflow_call:
