@@ -14,6 +14,11 @@
 
 on:
   workflow_call:
+    inputs:
+      tag:
+        type: string
+        required: false
+        default: 'latest'
     secrets:
       COVERALLS_REPO_TOKEN:
         required: false
@@ -60,7 +65,7 @@ jobs:
       env:
         NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
       if: (env.NODE_AUTH_TOKEN != '') && (github.ref == 'refs/heads/master')
-      run: npm publish --provenance
+      run: npm publish --tag ${{inputs.tag}} --provenance
     - name: Upload to GitHub Pages
       if: (hashFiles('./github_pages/') != '') && (github.ref == 'refs/heads/master')
       uses: actions/upload-pages-artifact@v3
