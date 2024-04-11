@@ -64,6 +64,7 @@ jobs:
     - name: Publish to npmjs.org
       env:
         NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
+        GH_TOKEN: ${{github.token}}
       if: (env.NODE_AUTH_TOKEN != '') && (github.ref == 'refs/heads/master')
       run: |
         npm publish --tag ${{inputs.tag}} --provenance
