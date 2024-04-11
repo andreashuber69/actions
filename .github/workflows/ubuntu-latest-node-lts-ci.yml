@@ -65,7 +65,9 @@ jobs:
       env:
         NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
       if: (env.NODE_AUTH_TOKEN != '') && (github.ref == 'refs/heads/master')
-      run: npm publish --tag ${{inputs.tag}} --provenance
+      run: |
+        npm publish --tag ${{inputs.tag}} --provenance
+        gh release create ${{github.ref_name}} --verify-tag --generate-notes
     - name: Upload to GitHub Pages
       if: (hashFiles('./github_pages/') != '') && (github.ref == 'refs/heads/master')
       uses: actions/upload-pages-artifact@v3
