@@ -32,6 +32,7 @@ jobs:
     name: Run continuous integration on Ubuntu Latest with Node LTS
     runs-on: ubuntu-latest
     permissions:
+      contents: write
       pages: write
       id-token: write
     steps:
