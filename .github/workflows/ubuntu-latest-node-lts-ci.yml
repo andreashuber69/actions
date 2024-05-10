@@ -68,8 +68,9 @@ jobs:
       run: npm publish --tag ${TAG:-latest} --provenance
     - name: Create release on github.com
       env:
+        NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
         GH_TOKEN: ${{github.token}}
-      if: github.ref == 'refs/heads/master'
+      if: (env.NODE_AUTH_TOKEN != '') && (github.ref == 'refs/heads/master')
       run: gh release create $VERSION --verify-tag --generate-notes
     - name: Upload to GitHub Pages
       if: (hashFiles('./github_pages/') != '') && (github.ref == 'refs/heads/master')
