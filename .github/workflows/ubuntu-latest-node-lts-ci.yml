@@ -64,11 +64,13 @@ jobs:
     - name: Publish to npmjs.org
       env:
         NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
-        GH_TOKEN: ${{github.token}}
       if: (env.NODE_AUTH_TOKEN != '') && (github.ref == 'refs/heads/master')
-      run: |
-        npm publish --tag ${TAG:-latest} --provenance
-        gh release create $VERSION --verify-tag --generate-notes
+      run: npm publish --tag ${TAG:-latest} --provenance
+    - name: Create release on github.com
+      env:
+        GH_TOKEN: ${{github.token}}
+      if: github.ref == 'refs/heads/master'
+      run: gh release create $VERSION --verify-tag --generate-notes
     - name: Upload to GitHub Pages
       if: (hashFiles('./github_pages/') != '') && (github.ref == 'refs/heads/master')
       uses: actions/upload-pages-artifact@v3
