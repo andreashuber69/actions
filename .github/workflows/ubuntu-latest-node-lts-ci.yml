@@ -14,11 +14,6 @@
 
 on:
   workflow_call:
-    inputs:
-      tag:
-        type: string
-        required: false
-        default: 'latest'
     secrets:
       COVERALLS_REPO_TOKEN:
         required: false
@@ -62,14 +57,18 @@ jobs:
       run: |
         ./cc-test-reporter format-coverage --input-type lcov ./coverage/lcov.info
         ./cc-test-reporter upload-coverage --id ${{secrets.CODECLIMATE_TEST_REPORTER_ID}}
+    - name: Set version environment variable
+      run: echo "VERSION=v`cat package.json | jq -r '.version'`" >> "$GITHUB_ENV"
+    - name: Set tag environment variable
+      run: echo "TAG=`echo $VERSION | sed -nE 's/^.*-(.*)\..*$/\1/p'`" >> "$GITHUB_ENV"
     - name: Publish to npmjs.org
       env:
         NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
         GH_TOKEN: ${{github.token}}
       if: (env.NODE_AUTH_TOKEN != '') && (github.ref == 'refs/heads/master')
       run: |
-        npm publish --tag ${{inputs.tag}} --provenance
-        gh release create v`cat package.json | jq -r '.version'` --verify-tag --generate-notes
+        npm publish --tag ${TAG:-latest} --provenance
+        gh release create $VERSION --verify-tag --generate-notes
     - name: Upload to GitHub Pages
       if: (hashFiles('./github_pages/') != '') && (github.ref == 'refs/heads/master')
       uses: actions/upload-pages-artifact@v3
