@@ -1,14 +1,17 @@
-# For this workflow to start, in the repository on https://github.com "Settins" -> "Actions" -> "General" ->
+# For this workflow to start, in the repository on https://github.com "Settings" -> "Actions" -> "General" ->
 # "Actions permissions" must be set accordingly and "Workflow permissions" must be set to "Read and write permissions".
 # Sets up an LTS Node.js environment on the latest version of Ubuntu. Then runs `npm ci` followed by `npm run ci`. If
-# available, code coverage data in ./coverage/lcov.info is then uploaded to https://coveralls.io/ if the associated
-# GitHub repository secret `COVERALLS_REPO_TOKEN` is set. Moreover, if the push happened on the `master` branch, the
-# following additional steps are taken:
-# - If the secret `NPM_ACCESS_TOKEN` is set, the package is also published with `npm publish`.
-# - If the folder ./github_pages exists, the contents is deployed to GitHub pages. For this to work, "Settings" ->
-#   "Pages" -> "Build and Deployment" -> "Source" must be set to "GitHub Actions" (currently located on e.g.
+# the folder ./coverage exists, the code coverage data in ./coverage/lcov.info is then uploaded to https://coveralls.io/
+# if the associated GitHub repository secret `COVERALLS_REPO_TOKEN` is set. Moreover, if the push happened on the
+# `master` branch, the following additional steps are taken:
+# - If the secret `NPM_ACCESS_TOKEN` is set, the package is published with `npm publish --provenance`. For prerelease
+#   versions (e.g. 1.2.3-beta.4), the identifier between `-` and the last `.` (e.g. `beta`) is used as the npm dist-tag,
+#   otherwise `latest` is used. Afterwards, a GitHub release is created for the tag `v<version>` (e.g. v1.2.3), which
+#   must already exist in the repository.
+# - If the folder ./github_pages exists, the contents are deployed to GitHub Pages. For this to work, "Settings" ->
+#   "Pages" -> "Build and deployment" -> "Source" must be set to "GitHub Actions" (currently located on e.g.
 #   https://github.com/andreashuber69/node-boilerplate/settings/pages). Also under "Settings" -> "Environments" there
-#   must be an environment called "github-pages" where  "Deployment branches and tags" allows for deployment from the
+#   must be an environment called "github-pages" where "Deployment branches and tags" allows for deployment from the
 #   "master" branch.
 
 on:
