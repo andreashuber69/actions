@@ -1,10 +1,9 @@
 # For this workflow to start, in the repository on https://github.com "Settins" -> "Actions" -> "General" ->
 # "Actions permissions" must be set accordingly and "Workflow permissions" must be set to "Read and write permissions".
 # Sets up an LTS Node.js environment on the latest version of Ubuntu. Then runs `npm ci` followed by `npm run ci`. If
-# available, code coverage data in ./coverage/lcov.info is then uploaded to https://coveralls.io/ and
-# https://codeclimate.com/ if the associated GitHub repository secrets `COVERALLS_REPO_TOKEN` and
-# `CODECLIMATE_TEST_REPORTER_ID` are set. Moreover, if the push happened on the `master` branch, the following
-# additional steps are taken:
+# available, code coverage data in ./coverage/lcov.info is then uploaded to https://coveralls.io/ if the associated
+# GitHub repository secret `COVERALLS_REPO_TOKEN` is set. Moreover, if the push happened on the `master` branch, the
+# following additional steps are taken:
 # - If the secret `NPM_ACCESS_TOKEN` is set, the package is also published with `npm publish`.
 # - If the folder ./github_pages exists, the contents is deployed to GitHub pages. For this to work, "Settings" ->
 #   "Pages" -> "Build and Deployment" -> "Source" must be set to "GitHub Actions" (currently located on e.g.
@@ -38,11 +37,6 @@ jobs:
         registry-url: https://registry.npmjs.org/
     - name: Install dependencies
       run: npm ci
-    - name: Prepare code coverage reporter
-      run: |
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        chmod +x ./cc-test-reporter
-        ./cc-test-reporter before-build
     - name: Build
       run: npm run ci
     - name: Upload coverage to coveralls.io
@@ -50,13 +44,6 @@ jobs:
         COVERALLS_REPO_TOKEN: ${{secrets.COVERALLS_REPO_TOKEN}}
       if: (hashFiles('./coverage/') != '') && (env.COVERALLS_REPO_TOKEN != '')
       run: npx coveralls <./coverage/lcov.info
-    - name: Upload coverage to codeclimate.com
-      env:
-        CODECLIMATE_TEST_REPORTER_ID: ${{secrets.CODECLIMATE_TEST_REPORTER_ID}}
-      if: (hashFiles('./coverage/') != '') && (env.CODECLIMATE_TEST_REPORTER_ID != '')
-      run: |
-        ./cc-test-reporter format-coverage --input-type lcov ./coverage/lcov.info
-        ./cc-test-reporter upload-coverage --id ${{secrets.CODECLIMATE_TEST_REPORTER_ID}}
     - name: Set version environment variable
       run: echo "VERSION=v`cat package.json | jq -r '.version'`" >> "$GITHUB_ENV"
     - name: Set tag environment variable
